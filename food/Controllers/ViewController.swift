@@ -12,11 +12,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     @IBOutlet weak var itensTableView: UITableView?
     
     var delegate: AdicionaRefeicaoDelegate?
-    var itens: [Item] = [Item(nome: "Molho", calorias: 40.0),
-                         Item(nome: "Queijo", calorias: 50.0),
-                         Item(nome: "Salsinha", calorias: 15.0),
-                         Item(nome: "Sal", calorias: 98.0)]
-    
+    var itens: [Item] = []
     var itensSelecionados: [Item] = []
 
     @IBOutlet weak var nomeTextField: UITextField?
@@ -26,6 +22,11 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         
         let botaoAdicionaItem = UIBarButtonItem(title: "Adicionar", style: .plain, target: self, action: #selector(adicionarItem))
         navigationItem.rightBarButtonItem = botaoAdicionaItem
+        recuperaItens()
+    }
+    
+    func recuperaItens() {
+        itens = ItemDao().recupera()
     }
     
     @objc func adicionarItem () {
@@ -35,7 +36,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     
     func add(_ item: Item) {
         itens.append(item)
-        
+        ItemDao().save(itens)
         if let tableView = itensTableView {
             tableView.reloadData()
         } else {
