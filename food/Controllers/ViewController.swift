@@ -9,7 +9,7 @@ import UIKit
 
 class ViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, AdicionaItensDelegate {
 
-    @IBOutlet weak var itensTableView: UITableView!
+    @IBOutlet weak var itensTableView: UITableView?
     
     var delegate: AdicionaRefeicaoDelegate?
     var itens: [Item] = [Item(nome: "Molho", calorias: 40.0),
@@ -35,19 +35,30 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     
     func add(_ item: Item) {
         itens.append(item)
-        itensTableView.reloadData()
+        
+        if let tableView = itensTableView {
+            tableView.reloadData()
+        } else {
+            Alert(controller: self).exibe(mensagem: "Não foi possível atualizar a tabela")
+        }
+    }
+    
+    func recuperaRefeicaoDoFormulario() -> Refeicao? {
+        guard let nomeDaRefeicao = nomeTextField?.text else { return nil }
+        guard let felicidadeDaRefeicao = felicidadeTextField?.text, let felicidade = Int(felicidadeDaRefeicao) else { return nil }
+        
+        let refeicao = Refeicao(nome: nomeDaRefeicao, felicidade: felicidade, itens: itensSelecionados)
+        return refeicao
     }
     
     // metodo
     @IBAction func adicionar () {
-        
-        guard let nomeDaRefeicao = nomeTextField?.text else { return }
-        guard let felicidadeDaRefeicao = felicidadeTextField?.text, let felicidade = Int(felicidadeDaRefeicao) else { return }
-        
-        let refeicao = Refeicao(nome: nomeDaRefeicao, felicidade: felicidade, itens: itensSelecionados)
-        delegate?.add(refeicao)
-        
-        navigationController?.popViewController(animated: true)
+        if let refeicao = recuperaRefeicaoDoFormulario() {
+            delegate?.add(refeicao)
+            navigationController?.popViewController(animated: true)
+        } else {
+            Alert(controller: self).exibe(mensagem: "Erro ao ler dados do formulário")
+        }
     }
     
     //MARK: - UITableViewDataSource
