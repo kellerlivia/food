@@ -10,6 +10,8 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="AdicionarItensViewController" customModule="food" customModuleProvider="target">
             <connections>
+                <outlet property="caloriasTextField" destination="eDV-3u-zt6" id="MCy-J6-X5F"/>
+                <outlet property="nomeTextField" destination="EnK-qA-bfI" id="cIn-ee-PEc"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
         </placeholder>
@@ -49,6 +51,9 @@
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <state key="normal" title="Button"/>
                     <buttonConfiguration key="configuration" style="plain" title="Adicionar"/>
+                    <connections>
+                        <action selector="adicionarItem:" destination="-1" eventType="touchUpInside" id="dyD-am-GBA"/>
+                    </connections>
                 </button>
             </subviews>
             <viewLayoutGuide key="safeArea" id="fnl-2z-Ty3"/>

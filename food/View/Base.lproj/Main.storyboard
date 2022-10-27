@@ -11,7 +11,6 @@
         <!--Navigation Controller-->
         <scene sceneID="Vbk-OK-YGM">
             <objects>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="PnI-ag-Pb8" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
                 <navigationController id="AqT-SQ-mah" sceneMemberID="viewController">
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="39S-W8-rGo">
                         <rect key="frame" x="0.0" y="44" width="414" height="44"/>
@@ -21,6 +20,7 @@
                         <segue destination="DG7-4z-ZKn" kind="relationship" relationship="rootViewController" id="hEx-pW-vZJ"/>
                     </connections>
                 </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="PnI-ag-Pb8" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-1558" y="94"/>
         </scene>
@@ -125,6 +125,7 @@
                     <navigationItem key="navigationItem" id="5Da-rS-diV"/>
                     <connections>
                         <outlet property="felicidadeTextField" destination="XeL-yJ-EsC" id="lfn-zx-UlW"/>
+                        <outlet property="itensTableView" destination="N0p-Rm-hXI" id="bDe-E1-Hw9"/>
                         <outlet property="nomeTextField" destination="AfI-qm-yl1" id="Kun-Nf-I3D"/>
                     </connections>
                 </viewController>

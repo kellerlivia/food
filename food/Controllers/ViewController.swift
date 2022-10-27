@@ -7,12 +7,9 @@
 
 import UIKit
 
-protocol AdicionaRefeicaoDelegate {
-    
-    func add (_ refeicao: Refeicao)
-}
+class ViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, AdicionaItensDelegate {
 
-class ViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
+    @IBOutlet weak var itensTableView: UITableView!
     
     var delegate: AdicionaRefeicaoDelegate?
     var itens: [Item] = [Item(nome: "Molho", calorias: 40.0),
@@ -26,32 +23,28 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     @IBOutlet weak var felicidadeTextField: UITextField?
     
     override func viewDidLoad() {
-        super.viewDidLoad()
         
         let botaoAdicionaItem = UIBarButtonItem(title: "Adicionar", style: .plain, target: self, action: #selector(adicionarItem))
         navigationItem.rightBarButtonItem = botaoAdicionaItem
     }
     
     @objc func adicionarItem () {
-        let adicionarItensViewController = AdicionarItensViewController()
+        let adicionarItensViewController = AdicionarItensViewController(delegate: self)
         navigationController?.pushViewController(adicionarItensViewController, animated: true)
+    }
+    
+    func add(_ item: Item) {
+        itens.append(item)
+        itensTableView.reloadData()
     }
     
     // metodo
     @IBAction func adicionar () {
         
-        guard let nomeDaRefeicao = nomeTextField?.text else {
-            return
-        }
-        
-        guard let felicidadeDaRefeicao = felicidadeTextField?.text, let felicidade = Int(felicidadeDaRefeicao) else {
-            return
-        }
+        guard let nomeDaRefeicao = nomeTextField?.text else { return }
+        guard let felicidadeDaRefeicao = felicidadeTextField?.text, let felicidade = Int(felicidadeDaRefeicao) else { return }
         
         let refeicao = Refeicao(nome: nomeDaRefeicao, felicidade: felicidade, itens: itensSelecionados)
-        
-        print("Comi \(refeicao.nome) e fiquei com felicidade: \(refeicao.felicidade)")
-        
         delegate?.add(refeicao)
         
         navigationController?.popViewController(animated: true)
@@ -90,13 +83,15 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
             cell.accessoryType = .none
             
             let item = itens[indexPath.row]
-            if let position = itensSelecionados.firstIndex(of: item) {
+            if let position = itensSelecionados.index(of: item) {
                 itensSelecionados.remove(at: position)
-                
-                for i in itensSelecionados{
-                    print(i.nome)
-                }
             }
         }
     }
+}
+
+//MARK: - Protocol
+
+protocol AdicionaRefeicaoDelegate {
+    func add (_ refeicao: Refeicao)
 }
